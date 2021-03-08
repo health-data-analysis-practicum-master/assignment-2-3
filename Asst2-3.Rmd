@@ -9,13 +9,13 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-**Due Sunday, March 22 @ midnight through Github**
+**Due Sunday, March 14 @ midnight through Github**
 
 Continue refinining your data displays and survey-weighted models to answer 
 
 **Question 2.1: What factors measured in the NYC HANES survey are associated with having hypertension?**
 
-You will want to think about what variables will be important to look at for examining the risk of hypertension, select these variables from the NYC HANES data set, recode and clean them, and then make some visualizations to examine the relationships among these variables. Think about choosing data displays that directly inform your later modeling choices.
+You will want to think about what variables will be important to look at for examining the risk of hypertension, select these variables from the NYC HANES data set, recode and clean them, and then make some visualizations to examine the relationships among these variables. Think about choosing data displays that directly inform your later modeling choices. How do your displays point you toward the model you end up fitting? 
 
 You will then want to use the `svydesign()` function to create an appropriate survey-weighted data set to use for your modeling analysis. You will need to be sure to include a variable with the appropriate survey weights in your data set.
 
@@ -23,15 +23,15 @@ Then, use the `svyglm()` function to fit a logistic regression model, with hyper
 
 Think about the variables that are included in your model and consider whether you want to include all of them, or drop some. You can use some of the tools we talked about in class to do this.
 
+Think about justifying each choice of variable in your model: can you use a visualization to do this? Look at significance of coefficients? Talk about how you are curious about a specific variable and how it influences hypertension? Compare models using AIC to decide on your final model?
+
 Write a few sentences interpreting the outputs of your final model. (If you included many variables, you don't need to write about all of them here.)
-
-
 
 Using this final model, begin to answer
 
 **Question 2.2: How do our estimates from survey-weighted logistic regression differ from those where we ignore survey weights?**
 
-You'll fit a standard logisitic regression and then you will want to figure out a nice data display to allow comparison of the model results. 
+You'll fit a standard logisitic regression and then you will want to figure out a nice data display to allow comparison of the model results. What is an effective way of illustrating how the results compare?
 
 You should complete this assignment in this .Rmd file.  Any text you want to include should be written outside of the code chunks.  Any code must be written inside of the code chunks.
 
@@ -81,11 +81,13 @@ Write your text here.
 7. Fit the same model using un-weighted logistic regression and compare the results using some kind of data display. Discuss what you see.
 
 
+8. Post a screenshot of your revised data display (just the graph or table) and/or a summary table of your model results on Piazza in the "Assignment 2-3 Results" thread.  Add a sentence or two that describes what you have found so far.  You are welcome to post this anonymously to your classmates. You can also include comments about what your chose to do or questions you had as you were making the display and fitting your model.
+
 FINALLY:  When you are ready to submit your assignment, do ALL of the following:
 
 * First, knit your .Rmd file to see if it will compile.  If it doesn't knit, you can still follow the steps below to submit your assignment, but please try to resolve the knitting issues before you submit.  You can reach out to us at phbiostats@jhu.edu for help!
 * Next you need to **commit** the changes you've made to the document.  Click the colorful Git button at the top of the RStudio window and select "Commit" from the menu.
-* In the window that opens, **stage** your changes by clicking the check boxes next to the `Asst2-2.Rmd` and `Asst2-2.html` files.
+* In the window that opens, **stage** your changes by clicking the check boxes next to the `Asst2-3.Rmd` and `Asst2-3.html` files.
 * In the "Commit message" box, type a short description of what changes you've made, something like: `Completed assignment`
 * Click the "Commit" button on the bottom right.
 * You'll see a window that will tell you about the changes that you've made.  Click "Close" to close the window.  You've successfully committed! You can close this commit window now.
