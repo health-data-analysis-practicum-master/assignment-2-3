@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-**Due Sunday, March 13 @ midnight through Github**
+**Due Sunday, March 12 @ midnight through Github**
 
 Continue refining your data displays and survey-weighted models to answer 
 
