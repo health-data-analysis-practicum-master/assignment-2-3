@@ -1,0 +1,210 @@
+---
+title: "Assignment 2-3"
+author: "Your Name"
+date: "Today's date"
+output: html_document
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**Due Sunday, March 08 @ midnight through Github**
+
+**Question: What factors measured in the NYC HANES survey predicts hypertension?**
+  
+In assignment_2-2, you cleaned and recoded variables from the NYC HANES dataset to examine hypertension risk. Now you will use that cleaned data to build a Random Forest model to predict hypertension.
+
+You should complete this assignment in this .Rmd file.  Any text you want to include should be written outside of the code chunks.  Any code must be written inside of the code chunks.
+
+When you want to test and run your whole assignment, you can click the "Knit" button to create an HTML document with your work.
+
+All code to read in and clean the data, and create your data display must be included in this document for it to knit properly.  That is, this document is a stand-alone document that shows all of the data analysis steps starting with the raw data.  It's helpful to periodically knit your document as you work to be sure you've included all the necessary code.
+
+**Do the following things: **
+  
+  1. Read in the NYC HANES data set and store it into an object called `dat`.  
+(Note, in this project the data is in a folder called `data` in the main project directory.)
+```{r}
+library(haven)
+dat <- read_sas('data/d.sas7bdat')
+dim(dat)
+
+```
+
+  2. Run the code chunk below, it will give you the cleaned dataset. 
+```{r}
+library(dplyr)
+# Rename the variables 
+dat_1 <- 
+  dat %>% 
+  select(id = KEY,
+         age = SPAGE,
+         race = DMQ_14_1,
+         gender = GENDER,
+         born = US_BORN,
+         diet = DBQ_1,
+         income = INC20K,
+         diabetes = DIQ_1,
+         bmi = BMI,
+         cholesterol = BPQ_16,
+         drinkfreq = ALQ_1,
+         drinkunit = ALQ_1_UNIT,
+         smoking = SMOKER3CAT,
+         hypertension = BPQ_2)
+
+# Recode the categorical variables
+dat_1 <- dat_1 %>% 
+  mutate(race = factor(race, 
+                       levels = c(100, 110, 120, 140, 180, 250), 
+                       labels = c('White', 'Black/African American', 
+                                  'Indian /Alaska Native', 
+                                  'Pacific Islander', 
+                                  'Asian', 'Other Race')),
+         gender = factor(gender, 
+                         levels = c(1, 2), 
+                         labels = c('Male', 'Female')),
+         born = factor(born, 
+                       levels = c(1, 2),
+                       labels = c("US Born", "Non-US Born")),
+         diet = factor(diet, 
+                       levels = c(5:1), 
+                       labels = c('Poor', 'Fair', 'Good', 
+                                  'Very good','Excellent')),
+         income = factor(income, 
+                         levels = c(1:6), 
+                         labels = c('Less than $20,000','$20,000 - $39,999',
+                                    '$40,000 - $59,999','$60,000 - $79,999',
+                                    '$80,000 - $99,999','$100,000 or more')),
+         diabetes = factor(diabetes, 
+                           levels = c(2, 1, 3), 
+                           labels = c('No','Yes','Prediabetes')),
+         cholesterol = factor(cholesterol, 
+                              levels = c(2, 1), 
+                              labels = c('Low value','High value')),
+         smoking = factor(smoking, 
+                          levels=c(3:1), 
+                          labels = c('Never smoker','Former smoker','Current smoker')),
+         hypertension = factor(hypertension, 
+                               levels = c(2, 1), 
+                               labels = c('No','Yes'))
+  )
+
+# Recoding the Drink variable
+dat_1 <- dat_1 %>% 
+  mutate(drink_denom = case_when(drinkfreq == 0 | drinkunit == 1 ~ 1,
+                                 drinkunit == 2 ~ 52 / 12,
+                                 drinkunit == 3 ~ 52),
+         drink = drinkfreq / drink_denom) %>% 
+  select(!c(drinkfreq, drinkunit))
+
+# Redefine the drink variable 
+dat_1 <- dat_1 %>% 
+  mutate(drinkcat = factor(drink >= 1, 
+                           labels = c('<1 / wk', '1+ / week')))
+
+dat_1 = na.omit(dat_1)
+
+```
+
+  3. Split the dataset to training and test sets (same as the last assignment)
+
+```{r}
+### put code here
+### you can use comments like this to describe what you are doing
+
+```
+
+
+  4. Define the cross-validation folds (same as the last assignment)
+  
+```{r}
+### put code here
+### you can use comments like this to describe what you are doing
+
+```
+  
+  5. Build a recipe using the recipe function (same as the last assignment).
+     But, choose the following variables for the model
+      Outcome: hypertension 
+      Predictors: age, race, gender, born, diet, income, diabetes, bmi, cholesterol,
+      smoking and drinkcat. 
+  
+```{r}
+### put code here
+### you can use comments like this to describe what you are doing
+
+```
+  
+ 
+   6. Build a workflow using the workflow function (same as the last assignment)
+  
+```{r}
+### put code here
+### you can use comments like this to describe what you are doing
+
+```
+   
+   7. Hypertension Random Forest Model
+
+  7.1. Specify the model
+  
+```{r}
+### put code here
+### you can use comments like this to describe what you are doing
+
+```
+  
+  7.2. Tune the model and choose the best value
+  
+```{r}
+### put code here
+### you can use comments like this to describe what you are doing
+
+```
+
+  7.3. Fit the model
+  
+```{r}
+### put code here
+### you can use comments like this to describe what you are doing
+
+```
+  
+  8. Model Evaluation
+Evaluate your Random Forest model by reporting the following metrics:
+
+Accuracy: Overall proportion of correct predictions
+ROC Curve and AUC: Plot the ROC curve and report the Area Under the Curve (AUC). 
+
+Comment on the metrics. 
+
+```{r}
+### put code for model evaluation here
+
+```
+  
+  9. Variable importance visualization
+  When you are ready to submit, post a screenshot of your variable importance results on Piazza in the "Assignment 2-3 Results" thread. Compare this result with the variable importance graph you generated in the last assignment. Please comment if anything intrigued/surprised you. 
+
+
+```{r}
+### put code for variable importance here
+
+```
+
+
+
+  10. When you are ready to submit your assignment, do ALL of the following:
+  
+  * First, knit your .Rmd file to see if it will compile.  If it doesn't knit, you can still follow the steps below to submit your assignment, but please try to resolve the knitting issues before you submit.  You can reach out to us at hdap@jhu.edu for help!
+* Next you need to **commit** the changes you've made to the document.  Click the colorful Git button at the top of the RStudio window and select "Commit" from the menu.
+* In the window that opens, **stage** your changes by clicking the check boxes next to the `Assign_2_3.Rmd` file.
+* In the "Commit message" box, type a short description of what changes you've made, something like: `Completed assignment`
+* Click the "Commit" button on the bottom right.
+* You'll see a window that will tell you about the changes that you've made.  Click "Close" to close the window.  You've successfully committed! You can close this commit window now.
+* After committing, you must **push** your changes to the repository on Github.  Do this by clicking the colorful Git button again and select "Push Branch".  
+* Again, you'll see a window open that tells you your changes have been pushed!
+* If you want, you can look at your repository on [Github.com](https://github.com/) and should be able to see your changes there!  
+* You've successfully submitted your assignment :)
+
